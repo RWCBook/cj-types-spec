@@ -19,7 +19,7 @@ Last Updated::
   {docdate}
 
 == General
-This document describes a backward-compatible extension to the Collection+JSON <<cj, [Cj]>> media type. This extension supports additional optional properties for Cj  +data[]+ elements in order to improve the user experience and provide additional rules to support better client-side data input validation.
+This document describes a backward-compatible extension to the Collection+JSON <<cj, [Cj]>> media type. This extension supports additional optional properties for Cj  +data[]+ elements (within Cj +template+ and +query+ elemeents) in order to improve the user experience and provide additional rules to support better client-side data input validation.
 
 Below is an example of _some_ of the new features enabled with the *Cj-Types* extension:
 
