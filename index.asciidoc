@@ -1,0 +1,135 @@
+= Cj-Types Extension Specification
+:toc:
+
+== Status
+Author::
+ Mike Amundsen, mca@amundsen.com
+  
+Status::
+  *[white red-background]#Working Draft#* -- _Only experimental and `proof-of-concept' apps should be built on this unstable draft._
+
+////
+  *[white red-background]#Working Draft#* -- _Only experimental and `proof-of-concept' apps should be built on this unstable draft._
+  *[black yellow-background]#Stable Draft#* _While stable, this is still a *draft* specification and it MAY introduce breaking changes_
+  *[white blue-background]#Submitted to IANA#* -- _This specification is not expected to introduce any breaking changes for this media-type._
+  *[white green-background]#Approved by IANA#* -- _This specification will not introduce any breaking changes for this media-type._
+////
+
+Last Updated::
+  {docdate}
+
+== General
+This document describes a backward-compatible extension to the Collection+JSON <<cj, [Cj]>> media type. This extension supports additional optional properties for Cj  +data[]+ elements in order to improve the user experience and provide additional rules to support better client-side data input validation.
+
+Below is an example of _some_ of the new features enabled with the *Cj-Types* extension:
+
+.Cj-Type Example
+[source,javascript]
+----
+"template": {
+  "prompt": "Add User",
+  "rel": "create-form userAdd create-form",
+  "data": [
+    {"name": "nick","value": "","prompt": "Nickname",
+      "type": "text", "required": "true","pattern": "[a-zA-Z0-9]+"},
+    {"name": "email","value": "","prompt": "Email",
+      "type": "email"},
+    {"name": "name","value": "","prompt": "Full Name",
+      "type": "text","required": "true"},
+    {"name": "password","value": "","prompt": "Password",
+      "type":"password","required": "true","pattern": "[a-zA-Z0-9!@#$%^&*-]+"},
+    {"name": "notes","value": "","prompt": "Notes",
+      "type": "area","cols": 40,"rows": 5} 
+  ]
+}
+---- 
+
+== Design Goals
+The goal of this extension is to improve the user input experience and to improve the machine-level validation of inputs before submitting them to the server for final validation and processing. 
+
+=== Compliance
+An implementation is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."
+
+[NOTE]
+====
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC <<rfc2119,[RFC2119]>>.
+====
+
+== The Cj-Types
+The *Cj-Types* properties are a set of properties that can be added to Cj +data+ elements when these +data+ elements appear as child objects in +query+ and +template+ objects in Cj documents. All *Cj-Type* properties are OPTIONAL. When they do appear in Cj documents, these properties MUST be valid JSON <<rfc4627,[RFC4627]>> name-value pairs(e.g. +"NAME" : "VALUE"+). 
+
+[NOTE]
+====
+The *Cj-Types* specification does not redefine existing Cj elements, remove any existing Cj elements, or create new REQUIRED Cj elements.
+====
+
+=== Quick View
+You can use *Cj-Types* properties to indicate additional constraints on displaying and validating the values for Cj +data+ elements. These properties mirror similar properties in the HTML5 +<input>+ specification <<html5,[HTML5]>> and can be used in the same way.
+
+Since all *Cj-Types* properties are OPTIONAL, they MAY be ignored completely. It is important that document authors understand that adding these properties to a Cj document does not ensure the receiver of that document will understand them or honor them. It is up to implementers to determine which of these OPTIONAL elements they wish to use and/or honor within Cj documents.
+
+=== Details
+Here are the details of all the new properties for +data+ elements defined in this specification:
+
++type+::
+The +type+ property MAY appear within a +data+ element: +data:{... "type":"text"}+. When the +type+ property does appear, the value of the +type+ property SHOULD be set to one of the <<type-values, Type Values>> listed in this specification. If the value is set to something other than one of the listed values or if the value is missing, then the value SHOULD be treated as +"text"+. If there is no +type+ property or there is an error in resolving the value, then the value SHOULD be assumed to be +"text"+.
+
++required+::
+Specifies that the +value+ of a +data+ element MUST be filled out before submitting the form. The required attribute works with the following input types: +text+, +search+, +url+, +tel+, +email+, +password+, +date+, +datetime-local+, +month+, +time+, +week+, +number+, and +file+. Valid values are +"true"+ and +"false"+. If this property is missing, contains an invalid value, or the value cannot be resolved, then the property SHOULD be treated is if it is set to +"false"+.
+
++readOnly+::
+Specifies that the +value+ of a +data+ element is read only (cannot be changed). Valid values are +"true"+ and +"false"+. If this property is missing, contains an invalid value, or the value cannot be resolved, then the property SHOULD be treated is if it is set to +"false"+.
+
++pattern+::
+Specifies a regular expression that the +data+ element's +value+ property is checked against. The pattern attribute works with the following input types: +text+, +search+, +url+, +tel+, +email+, and +password+. The value of this field SHOULD be a valid Javascript Regular Expression (see <<ecma262, ECMA262>>). If the property contains an invalid value, or the value cannot be resolved, it SHOULD be ignored.
+
++min+ and +max+::
+Specifies the minimum and maximum values for the +value+ of a +data+ element. The min and max attributes work with the following input types: +number+, +range+, +date+, +datetime-local+, +month+, +time+ and +week+. The property values SHOULD be in integer in the form of a string (e.g. +"5"+). If these properties contain an invalid value or the value cannot be resolved, they SHOULD be ignored. If either property is missing, it is up to the client application to establish the values for these properties.
+
++maxlength+::
+Specifies the maximum allowed length for the +value+ of a +data+ element. The property value SHOULD be an integer in the form of a string (e.g. +"50"+). If this property contains an invalid value or the value cannot be resolved, this property SHOULD be ignored. If this property is missing, it is up to the client application to establish the maximum input length of Cj +value+ field. 
+
++size+::
+Specifies the display size (in characters) for the +value+ of a +data+ element. It SHOULD contain an integer value in the form of a string (e.g. +"25"+). If this property contains an invalid value or the value cannot be resolved, this property SHOULD be ignored. If this property is missing, it is up to the client application to establish the display size of the input control. It is also up to the client application to establish a maximum display value and, if the property is set _above_ that maximum display value, the client application SHOULD ignore the property value and use the maxium display value instead.
+
++step+::
+Specifies the legal number intervals for the +value+ of a +data+ element. For example, if +step="3"+, legal numbers could be +-3+, +0+, +3+, +6+, etc. The value of this property SHOULD be an integer in the form of a string (e.g. +"3"+). The step attribute works with the following input types: +number+, +range+, +date+, +datetime-local+, +month+, +time+ and +week+. If the property contains an invalid value or the value cannot be resolve, it should be ignored.
+
++rows+ and +cols+::
+The +rows+ attribute specifies the visible number of lines in a +data+ element with the +type+ property set to +"textarea"+. The +cols+ attribute specifies the visible width of a +data+ element with the +type+ property set to +"textarea"+. The value of these properties SHOULD be set to an integer in the form of a string (e.g. +"15"+). If these properties are applied to any other +data+ element other than one with the +type+ value set to +"textarea"+ they SHOULD be ignored. In cases where the properties are applied to a +"textarea"+ +data+ element, ff these properties are missing, contains an invalid value, or the value cannot be resolved, it is up to the client application to determine the default values for these properties. It is also up to the client application to determine the minimum and maximum allowable values for these properties and to treat any provided values outside those ranges as invalid values.
+
+[[type-values]]
+== Type Values
+The following is a list of valid value for the +type+ property. These MAY NOT all be supported by Cj clients. Any values _not_ supported SHOULD be treated as if the value was set to +text+ and displayed (and validated) accordingly.
+
+=== Level One Support
+The following +type+ values are considered "Level One." Any application that claims to support the *Cj-Types* extension SHOULD support all of the +type+ values in this list.
+
+email::	Defines a field for an e-mail address
+hidden::	Defines a hidden input field
+number::	Defines a field for entering a number
+password::	Defines a password field (characters are masked)
+search::	Defines a text field for entering a search string
+tel::	Defines a field for entering a telephone number
+text::	Default. Defines a single-line text field (default width is 20 characters)
+url::	Defines a field for entering a URL
+
+=== Level Two Support
+The following +type+ values are considered "Level Two." Any application that claims to support the *Cj-Types* extension MAY support one or more of the +type+ values in this list.
+
+textarea:: Defines a multi-line input field
+color::	Defines a color picker
+date::	Defines a date control (year, month and day (no time))
+datetime-local::	Defines a date and time control (year, month, day, hour, minute, second, and fraction of a second (no time zone)
+month::	Defines a month and year control (no time zone)
+week::	Defines a week and year control (no time zone)
+time::	Defines a control for entering a time (no time zone)
+range::	Defines a control for entering a number whose exact value is not important (like a slider control)
+file::	Defines a file-select field and a "Browse..." button (for file uploads)
+
+== References
+ * [[cj]] [Cj], Amundsen, M, "Collection+JSON - Hypermedia Type", February 2013, http://amundsen.com/media-types/collection/
+ * [[rfc2119]] [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels", March 1997, http://tools.ietf.org/html/rfc2119
+ * [[rfc4627]] [RFC4627] D. Crockford, "The application/json Media Type for JavaScript Object Notation (JSON)", July 2006, http://tools.ietf.org/html/rfc4627
+ * [[html5]] [HTML5], Hickson, et al, "4.10.5 The input element", October 2014, https://www.w3.org/TR/html5/forms.html#the-input-element
+ * [[ecma262]] [ECMA262]  Ecma International, "ECMAScript Language Specification - ECMA-262 - 5.1 Edition", June 2011, https://people-mozilla.org/~jorendorff/es5.1-final.html#sec-15.10
