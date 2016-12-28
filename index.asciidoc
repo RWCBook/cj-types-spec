@@ -19,7 +19,7 @@ Last Updated::
   {docdate}
 
 == General
-This document describes a backward-compatible extension to the Collection+JSON <<cj, [Cj]>> media type. This extension supports additional optional properties for Cj  +data[]+ elements (within Cj +template+ and +query+ elements) in order to improve the user experience and provide additional rules to support better client-side data input validation.
+This document describes a backward-compatible extension to the Collection+JSON <<cj, [Cj]>> media type created for the book _RESTful Web Clients_ <<rwcbook, [RWDCBook]>> by Mike Amundsen. This extension supports additional optional properties for Cj  +data[]+ elements (within Cj +template+ and +query+ elements) in order to improve the user experience and provide additional rules to support better client-side data input validation.
 
 Below is an example of _some_ of the new features enabled with the *Cj-Types* extension:
 
@@ -128,7 +128,8 @@ range::	Defines a control for entering a number whose exact value is not importa
 file::	Defines a file-select field and a "Browse..." button (for file uploads)
 
 == References
- * [[cj]] [Cj], Amundsen, M, "Collection+JSON - Hypermedia Type", February 2013, http://amundsen.com/media-types/collection/
+ * [[rwcbook]] [RWCBook] Amundsen, M., "RESTful Web Clients", January 2017, http://g.mamund.com/rwcbook
+ * [[cj]] [Cj] Amundsen, M., "Collection+JSON - Hypermedia Type", February 2013, http://amundsen.com/media-types/collection/
  * [[rfc2119]] [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels", March 1997, http://tools.ietf.org/html/rfc2119
  * [[rfc4627]] [RFC4627] D. Crockford, "The application/json Media Type for JavaScript Object Notation (JSON)", July 2006, http://tools.ietf.org/html/rfc4627
  * [[html5]] [HTML5], Hickson, et al, "4.10.5 The input element", October 2014, https://www.w3.org/TR/html5/forms.html#the-input-element
