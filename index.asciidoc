@@ -50,6 +50,9 @@ Below is an example of _some_ of the new features enabled with the *Cj-Types* ex
 == Design Goals
 The goal of this extension is to improve the user input experience and to improve the machine-level validation of inputs before submitting them to the server for final validation and processing. 
 
+=== Updates
+There is an open source repository <<repo,[REPO]>> for this specification. Readers are encouraged to submit updates via the repository any time.
+
 === Compliance
 An implementation is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."
 
@@ -57,9 +60,6 @@ An implementation is not compliant if it fails to satisfy one or more of the MUS
 ====
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC <<rfc2119,[RFC2119]>>.
 ====
-
-=== Updates
-There is an open source repository <<repo,[REPO]>> for this specification. Readers are encouraged to submit updates via the repository any time.
 
 == The Cj-Types
 The *Cj-Types* properties are a set of properties that can be added to Cj +data+ elements when these +data+ elements appear as child objects in +query+ and +template+ objects in Cj documents. All *Cj-Type* properties are OPTIONAL. When they do appear in Cj documents, these properties MUST be valid JSON <<rfc4627,[RFC4627]>> name-value pairs(e.g. +"NAME" : "VALUE"+). 
