@@ -118,12 +118,12 @@ password::	Defines a password field (characters are masked)
 search::	Defines a text field for entering a search string
 tel::	Defines a field for entering a telephone number
 text::	Default. Defines a single-line text field (default width is 20 characters)
+textarea:: Defines a multi-line input field
 url::	Defines a field for entering a URL
 
 === Level Two Support
 The following +type+ values are considered "Level Two." Any application that claims to support the *Cj-Types* extension MAY support one or more of the +type+ values in this list.
 
-textarea:: Defines a multi-line input field
 color::	Defines a color picker
 date::	Defines a date control (year, month and day (no time))
 datetime-local::	Defines a date and time control (year, month, day, hour, minute, second, and fraction of a second (no time zone)
